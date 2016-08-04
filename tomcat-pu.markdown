@@ -103,8 +103,138 @@ Step 4:	(optional) Specify the SLA parameters for fault isolation and redundancy
 Step 5:	Build the project through mvn package{{<wbr>}}
 Step 6:	Deploy processing unit in XAP, once deployed Tomcat should appear as the following
 
-
+{{%align center%}}
 ![tomcat1.png](/attachment_files/sbp/tomcat1.png)
-
+{{%/align%}}
 
 Navigate to (default) port 8888 to test
+
+{{%align center%}}
+![tomcat2.png](/attachment_files/sbp/tomcat2.png)
+{{%/align%}}
+
+Step 7:	Increase or decrease instances of Tomcat running through the “Deployed Processing Units” tab
+
+{{%align center%}}
+![tomcat3.png](/attachment_files/sbp/tomcat3.png)
+{{%/align%}}
+
+With the default project, upon adding new instances on your local machine, the next one should be listening on port 8889.
+
+
+# Class Loading
+
+The following describes the structure of the class loaders when several web applications are deployed on the Service Grid:
+
+	     Bootstrap (Java)
+                  |
+               System (Java)
+                  |
+               Common (Service Grid)
+                  |
+            Tomcat 7 Container (Tomcat)
+             /        \
+        WebApp1     WebApp2
+
+
+The following table shows which user controlled locations end up in which class loader, and the important JAR files that exist within each one:
+
+ 
+|Class Loader|	User Locations|
+|:--------|:-----------|
+|Common|	\[GSRoot\]/lib/platform/ext/*.jar|
+|Tomcat 7|\[PU\]/lib, \[PU\]/com/*|
+|Webapp	| \[PU\]/webapps/WEB-INF/classes, \[PU\]/webapps/WEB-INF/lib/*.jar|
+
+
+# Tomcat Cluster with a Data Grid Deployment
+
+See below for different options deploying Tomcat cluster with an embedded data grid or Tomcat cluster using a local cache with Remote data grid:
+
+## Deploying Two nodes Tomcat Cluster with an Embedded Sync-replicated Data-Grid
+
+{{%align center%}}
+[<img src="/attachment_files/sbp/tomcat-deploy1.png" width="500" height="350">](/attachment_files/sbp/tomcat-deploy1.png)
+{{%/align%}}
+
+
+The `pu.xml` should include:
+```xml
+<beans 
+	<bean id="tomcat7" class="com.gigaspaces.tomcat.Tomcat7">
+....
+	<os-core:embedded-space id="space" name="space" />
+</beans>
+```
+
+Tomcat Cluster with two instances embedded sync-replicated data-grid deploy command:
+
+```xml
+gs deploy -cluster schema=sync_replicated total_members=2 tomcat-pu-1.0-SNAPSHOT.jar
+```
+
+
+## Deploying Two nodes Tomcat Cluster with an Embedded ASync-replicated Data-Grid
+
+The `pu.xml` should include:
+
+```xml
+<beans 
+	<bean id="tomcat7" class="com.gigaspaces.tomcat.Tomcat7">
+....
+	<os-core:embedded-space id="space" name="space" />
+</beans>
+```
+
+Tomcat Cluster with two instances embedded async-replicated data-grid deploy command:
+
+```xml
+gs deploy -cluster schema=async_replicated total_members=2 tomcat-pu-1.0-SNAPSHOT.jar
+```
+## Deploying Two nodes Tomcat Cluster with a Local-cache Communicating with a Remote Data-Grid
+
+{{%align center%}}
+[<img src="/attachment_files/sbp/tomcat-deploy2.png" width="500" height="400">](/attachment_files/sbp/tomcat-deploy2.png)
+{{%/align%}}
+
+The `pu.xml` should include:
+```xml
+<beans 
+	<bean id="tomcat7" class="com.gigaspaces.tomcat.Tomcat7">
+....
+	<os-core:space-proxy id="space" name="space" />
+	<os-core:local-cache id="localCacheSpace" space="space">
+		<os-core:properties>
+		<props>
+			<prop key="space-config.engine.cache_size">5000000</prop>
+			<prop key="space-config.engine.memory_usage.high_watermark_percentage">75</prop>
+			<prop key="space-config.engine.memory_usage.write_only_block_percentage">73</prop>
+			<prop key="space-config.engine.memory_usage.write_only_check_percentage">71</prop>
+			<prop key="space-config.engine.memory_usage.low_watermark_percentage">50</prop>
+			<prop key="space-config.engine.memory_usage.eviction_batch_size">1000</prop>
+			<prop key="space-config.engine.memory_usage.retry_count">20</prop>
+			<prop key="space-config.engine.memory_usage.explicit">false</prop>
+			<prop key="space-config.engine.memory_usage.retry_yield_time">200</prop>
+		</props>
+		</os-core:properties>
+	</os-core:local-cache>
+
+	<os-core:giga-space id="localCache" space="localCacheSpace"/>
+</beans>
+```
+
+Data Grid (Two partitions with a sync-replicated backup) deploy command:
+
+```xml
+gs deploy-space -cluster schema=partitioned-sync2backup total_members=2,1 space
+```
+
+Tomcat Cluster deploy command:
+
+```xml
+gs deploy -cluster total_members=2 tomcat-pu-1.0-SNAPSHOT.jar
+```
+
+# Elastic Load Balancer
+
+Implementing automatic updates of load balancer tables can be done through the combination of the Admin API for monitoring the processing unit instances. A similar pattern is available through the [Apache Load Balancer processing unit](./web-load-balancer-agent-pu.html).
