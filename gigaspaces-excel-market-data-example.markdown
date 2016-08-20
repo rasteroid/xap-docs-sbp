@@ -32,10 +32,10 @@ The example demonstrates the following:
 
 The example contains a few projects:
 
-- The **`StockEntities`** project defines the `StockData` object, which stocks the market data with updated information.
-- The **`StockQuote`** project is in charge of notifying the Excel workbook of changes in the stock market data. `StockQuote` is an Excel RTD server. It receives GigaSpaces events when the stock market data is updated, and in turn notifies Excel of changes.
-- The **`StockOperations`** project is an Excel UDF (User-Defined Function). It returns the "Open" value of a Stock Symbol.
-- The **`StockMarketFeeder`** project writes the stock market data into the space. It simulates changes and actions that take place in the stock market.
+- The `StockEntities`project defines the `StockData` object, which stocks the market data with updated information.
+- The `StockQuote` project is in charge of notifying the Excel workbook of changes in the stock market data. `StockQuote` is an Excel RTD server. It receives GigaSpaces events when the stock market data is updated, and in turn notifies Excel of changes.
+- The `StockOperations` project is an Excel UDF (User-Defined Function). It returns the "Open" value of a Stock Symbol.
+- The `StockMarketFeeder` project writes the stock market data into the space. It simulates changes and actions that take place in the stock market.
 
 {{% anchor building %}}
 
@@ -76,7 +76,7 @@ The .NET files are created in the `<Example Root>\Release` directory.
 {{% exclamation %}} The example must be compiled before you run it (see [Building the Example](#building) above).
 
 1. Start the GigaSpaces environment: `<Example Root>\bin\startAll.bat`.
-2. Run the GigaSpaces Management Center `(<GigaSpaces Root>\Bin\Gs-ui.exe`) to see the **`GigaSpaces.Examples.ExcelStocks.StockEntities.StockData`** instances. To view only the relevant spaces:
+2. Run the GigaSpaces Management Center `(<GigaSpaces Root>\Bin\Gs-ui.exe`) to see the  `GigaSpaces.Examples.ExcelStocks.StockEntities.StockData`` instances. To view only the relevant spaces:
     1. In the top menu bar, choose **Settings** > **Discovery** > **Group management**.
     2. Select only the **Excel** group, unselect all the rest.
 
@@ -86,8 +86,8 @@ The .NET files are created in the `<Example Root>\Release` directory.
 
 The example includes the following scripts:
 
-- **`compile.bat`** - compiles the .NET components.
-- **`startAll.bat`** - runs the feeder process that starts an embedded space and fills the space with stock market data updates. These updates trigger RTD calls, and are presented in realtime in the open Excel workbook.
+- `compile.bat` - compiles the .NET components.
+- `startAll.bat` - runs the feeder process that starts an embedded space and fills the space with stock market data updates. These updates trigger RTD calls, and are presented in realtime in the open Excel workbook.
 
 # Tested Configuration
 
