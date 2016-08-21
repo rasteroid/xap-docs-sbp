@@ -35,14 +35,14 @@ The project includes multi-partitioned space unit tests. Please use proper XAP l
 
 Each collection declaration requires passing `Gigaspace` bean to the configurer or bean factory. Here is how you can create set and queue via Spring XML and Java configurations:
 
-##### Java declaration
+### Java declaration
 
 ```java
 GigaSet<Person> set = new GigaSetConfigurer<Person>(gigaSpace).gigaSet();
 GigaQueue<Person> queue = new GigaQueueConfigurer<Person>(gigaSpace, "myPersonQueue", CollocationMode.DISTRIBUTED).gigaQueue();
 ```
 
-##### XML declaration
+### XML declaration
 
 ```xml
 <!-- Space declaration is omitted -->

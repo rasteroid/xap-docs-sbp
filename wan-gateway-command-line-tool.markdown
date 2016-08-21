@@ -28,11 +28,11 @@ You can download the example project  from [here](/sbp/download_files/WAN_GW_CLI
 
 ### Build and Running the Tool
 
-##### Step 1: Deploy space Processing Units
+### Step 1: Deploy space Processing Units
 
 Deploy `space-de.jar` and `space-ru.jar` via [command line or Gigaspaces Management Center]({{%latestjavaurl%}}/deploying-onto-the-service-grid.html)
 
-##### Step 2: Build tool with maven
+### Step 2: Build tool with maven
 
 Modify `<gsVersion>` within the `gw-cli/pom.xml` to include the right XAP release -
 example below has XAP 10.2.1 (10.2.1-14000-RELEASE) as the `<gsVersion>` value.
@@ -42,7 +42,7 @@ Then execute:
 cd <project_root>
 mvn clean install
 ```
-##### Step 3:	Run the tool to deploy WAN Gateways
+### Step 3:	Run the tool to deploy WAN Gateways
 
 Tool execution requires configuration file. Two configuration files (`wan-gateway-de.conf` and `wan-gateway-us.conf`)
 for WAN Gateways for both spaces are provided.
@@ -87,7 +87,7 @@ Example output:
 01:02:59.700 [main] DEBUG Gateway-CLI: Deployer - Deploy executed
 01:02:59.700 [main] DEBUG Gateway-CLI - DISCONNECT
 ```
-##### Step 4:	Test WAN replication
+### Step 4:	Test WAN replication
 
 Write the data to the first space and see how it's replicated to second one.
 
