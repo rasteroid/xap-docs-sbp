@@ -16,8 +16,8 @@ weight: 1310
 
 The MongoDB Data-Grid example demonstrates a common Data Grid / Caching architecture using MongoDB for persistence. It includes the following components.
 
-- A Client application that perform write and read operations against a remote clustered IMDG.
-- A Clustered IMDG with write-behind (Mirror service) with pre-fetch (initial load) enabled. The Data grid using MongoDB database.
+- A Client application that performs write and read operations against a remote, clustered IMDG.
+- A Clustered IMDG with write-behind (Mirror service) with pre-fetch (initial load) enabled. The Data grid uses MongoDB database.
 
 ![image.jpeg](/sbp/attachment_files/mongodatagrid002.jpg)
 
